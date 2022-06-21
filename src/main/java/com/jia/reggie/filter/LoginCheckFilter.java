@@ -2,6 +2,7 @@ package com.jia.reggie.filter;
 
 
 import com.alibaba.fastjson.JSON;
+import com.jia.reggie.common.BaseContext;
 import com.jia.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -42,8 +43,11 @@ public class LoginCheckFilter implements Filter {
             return;
         }
         //用户登录则不拦截
-        if(request.getSession().getAttribute("employee") != null){
-            log.info("已登录的id:{}",request.getSession().getAttribute("employee"));
+        Long empid = (Long) request.getSession().getAttribute("employee");
+        if(empid!= null){
+            log.info("已登录的id:{}",empid);
+
+            BaseContext.setThreadLocal(empid);
             filterChain.doFilter(request,response);
             return;
         }
