@@ -4,13 +4,15 @@ package com.jia.reggie.controller;
 import com.jia.reggie.common.R;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.UUID;
 
 @RestController
@@ -43,5 +45,36 @@ public class CommonController {
         }
         return R.success(basePath+fileName);
     }
+
+
+    @GetMapping("/download")
+    public void download(String name, HttpServletResponse response){
+
+        try {
+            //输入流，通过输入流读取文件内容
+            FileInputStream fileInputStream = new FileInputStream(new File(basePath+name));
+
+            //输出流，通过输出流将文件写回浏览器
+            ServletOutputStream outputStream = response.getOutputStream();
+
+            response.setContentType("image/jpeg");
+
+            int len = 0;
+            byte[] bytes = new byte[1024];
+            while((len = fileInputStream.read(bytes)) != -1){
+                outputStream.write(bytes,0,len);
+                outputStream.flush();
+            }
+
+            outputStream.close();
+            fileInputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
 }
