@@ -1,3 +1,5 @@
+reggie:
+  path: H:/img/
 server:
   port: 8080
 spring:
@@ -19,3 +21,4 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
