@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
 
         return R.error("莫名其妙的错误出现了");
     }
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException customException){
+        log.error(customException.getMessage());
+        return R.error(customException.getMessage());
+    }
 
 
 }

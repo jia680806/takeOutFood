@@ -40,9 +40,10 @@ public class CategoryController {
     @DeleteMapping
     public R<String> delete(Long id){
         log.info("删除的id为："+id);
-        categoryService.removeById(id);
+        categoryService.remove(id);
         return R.success("分类删除成功");
     }
+
 
 
 
