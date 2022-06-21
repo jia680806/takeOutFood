@@ -1,8 +1,5 @@
 com\jia\reggie\ReggieApplication.class
 com\jia\reggie\config\WebMvcConfig.class
-com\jia\reggie\common\GlobalExceptionHandler.class
-com\jia\reggie\service\Impl\EmployeeServiceImpl.class
-com\jia\reggie\common\R.class
-com\jia\reggie\controller\EmployeeController.class
-com\jia\reggie\service\EmployeeService.class
 com\jia\reggie\mapper\EmployeeMapper.class
+com\jia\reggie\service\CategoryService.class
+com\jia\reggie\mapper\CategoryMapper.class
