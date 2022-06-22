@@ -20,6 +20,7 @@ import java.util.UUID;
 @RequestMapping("/common")
 public class CommonController {
 //    @Value("${reggie.path}")
+    @Value("${reggie.path}")
     private String basePath;
 
     @PostMapping("/upload")
@@ -43,6 +44,7 @@ public class CommonController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        log.info("上传成功："+basePath+fileName);
         return R.success(basePath+fileName);
     }
 
@@ -52,7 +54,7 @@ public class CommonController {
 
         try {
             //输入流，通过输入流读取文件内容
-            FileInputStream fileInputStream = new FileInputStream(new File(basePath+name));
+            FileInputStream fileInputStream = new FileInputStream(new File(name));
 
             //输出流，通过输出流将文件写回浏览器
             ServletOutputStream outputStream = response.getOutputStream();

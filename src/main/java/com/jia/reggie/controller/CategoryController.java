@@ -29,6 +29,7 @@ public class CategoryController {
         categoryService.save(category);
         return R.success("新增分类成功");
     }
+
     @GetMapping("/page")
     public R<Page> page(int page,int pageSize){
         Page<Category> pageInfo = new Page<>(page,pageSize);
@@ -37,16 +38,13 @@ public class CategoryController {
         categoryService.page(pageInfo,queryWrapper);
         return R.success(pageInfo);
     }
+
     @DeleteMapping
     public R<String> delete(Long id){
         log.info("删除的id为："+id);
         categoryService.remove(id);
         return R.success("分类删除成功");
     }
-
-
-
-
 
 
 }
