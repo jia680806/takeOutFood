@@ -2,19 +2,17 @@ package com.jia.reggie.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jia.reggie.common.R;
 import com.jia.reggie.dto.SetmealDto;
-import com.jia.reggie.entity.Dish;
+
+import com.jia.reggie.entity.Setmeal;
 import com.jia.reggie.service.DishService;
 import com.jia.reggie.service.SetmealDishService;
 import com.jia.reggie.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/setmeal")
@@ -28,21 +26,7 @@ public class SetmealController {
     private DishService dishService;
 
 
-    public R<List<Dish>> list (Dish dish){
-
-        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
-
-        queryWrapper.eq(dish.getCategoryId() !=null, Dish::getCategoryId,dish.getCategoryId());
-
-        queryWrapper.eq(Dish::getStatus,1);
-        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
-
-        List<Dish> list = dishService.list(queryWrapper);
-
-
-        return R.success(list);
-    }
-
+    @PostMapping
     public R<String> save(@RequestBody SetmealDto setmealDto){
         log.info("套餐信息：{}",setmealDto);
 
@@ -50,4 +34,20 @@ public class SetmealController {
 
         return R.success("新增套餐成功");
     }
+
+    public R<Page> page(int page,int pageSize,String name){
+
+        Page<Setmeal> pageInfo = new Page<>(page,pageSize);
+
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+
+        queryWrapper.like(name !=null,Setmeal ::getName,name);
+
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime);
+
+        setmealService.page(pageInfo,queryWrapper);
+        return R.success(pageInfo);
+
+    }
+
 }
